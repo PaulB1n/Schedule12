@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn = "navigation_view">
+
+    <group
+        android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_teacher"
+            android:icon="@drawable/menu_teacher_icon"
+            android:title="@string/menu_teacher" />
+
+        <item
+            android:id="@+id/nav_pari"
+            android:icon="@drawable/menu_book_icon"
+            android:title="@string/menu_predmet" />
+
+        <item
+            android:id="@+id/nav_zameni"
+            android:icon="@drawable/menu_zameni_icon"
+            android:title="@string/menu_zameni" />
+        <item
+            android:id="@+id/nav_settings"
+            android:icon="@drawable/menu_settings_icon"
+            android:title="@string/menu_settings" />
+
+    </group>
+    <item android:title="">
+        <menu>
+            <item
+                android:id="@+id/nav_logout"
+                android:icon="@drawable/menu_exit_icon"
+                android:title="@string/menu_exit"/>
+        </menu>
+    </item>
+</menu>
