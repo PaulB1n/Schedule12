@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import androidx.annotation.Nullable;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -100,6 +101,7 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+
     private void handleApiError(Response response) {
         runOnUiThread(new Runnable() {
             @Override
@@ -119,25 +121,16 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void saveTokenAndNavigate(String authToken) {
-        Log.d("Navigate", "saveTokenAndNavigate() called");
-        Log.d("Navigate", "Before saving token to SharedPreferences: " + authToken);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("authToken", authToken);
         editor.apply();
-
-        Log.d("Navigate", "Token saved successfully in SharedPreferences: " + authToken);
-        Log.d("Navigate", "After saving token to SharedPreferences");
-
-        navigateToMainActivity();
+        navigateToMain();
     }
-
-    private void navigateToMainActivity() {
-        Log.d("Navigate", "Navigating to MainActivity");
+    private void navigateToMain() {
+        Log.d("Navigation", "Navigating to Main Activity");
         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
-
-        Log.d("Navigate", "MainActivity started");
+        finish();
     }
 
 }

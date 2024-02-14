@@ -1,7 +1,10 @@
 package com.example.schedule;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -41,6 +44,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         );
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
+
+        // Перевірка наявності токену при створенні активності
+        if (!isTokenAvailable()) {
+            // Якщо токен відсутній, перенаправте користувача на екран входу
+            startActivity(new Intent(MainActivity.this, LoginActivity.class));
+            finish();
+            return;
+        }
 
         if (savedInstanceState == null) {
             replaceFragment(new RaspisanieFragment());
@@ -85,16 +96,34 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void logout() {
+        // Очищення токену при виході
+        clearAuthToken();
         FirebaseAuth.getInstance().signOut();
         startActivity(new Intent(MainActivity.this, LoginActivity.class));
         finish();
     }
 
-    //ПЕРЕВІРКА НА ВХІД
+    // Перевірка наявності токену в SharedPreferences
+    private boolean isTokenAvailable() {
+        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        String authToken = sharedPreferences.getString("authToken", "");
+        return !TextUtils.isEmpty(authToken);
+    }
+
+    // Очищення токену в SharedPreferences
+    private void clearAuthToken() {
+        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.remove("authToken");
+        editor.apply();
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
-        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+        // Перевірка наявності токену при відновленні активності
+        if (!isTokenAvailable()) {
+            // Якщо токен відсутній, перенаправте користувача на екран входу
             startActivity(new Intent(MainActivity.this, LoginActivity.class));
             finish();
         }
@@ -108,8 +137,5 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             super.onBackPressed();
         }
     }
-
-
-
-
 }
+
