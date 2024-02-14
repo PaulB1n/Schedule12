@@ -1,5 +1,6 @@
 package com.example.schedule;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -9,11 +10,6 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
@@ -29,18 +25,16 @@ public class LoginActivity extends AppCompatActivity {
 
     private EditText emailEditText, passwordEditText;
     private Button loginButton;
-    private DatabaseReference databaseReference;
+    private ApiService apiService;
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        //Firebase
-        FirebaseApp.initializeApp(this);
-
-        //Realtime Database
-        databaseReference = FirebaseDatabase.getInstance().getReference();
+        apiService = new ApiService();
+        sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
 
         emailEditText = findViewById(R.id.email_et);
         passwordEditText = findViewById(R.id.password_et);
@@ -49,71 +43,61 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // запит CSRF cookie
-                ApiService apiService = new ApiService();
-                apiService.getCsrfCookie(new Callback() {
-                    @Override
-                    public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                        if (response.isSuccessful()) {
-                            // Запит CSRF cookie успішний
-                            String csrfCookie = response.header("Set-Cookie");
-
-                            // Отримання введених даних користувача
-                            String login = emailEditText.getText().toString();
-                            String password = passwordEditText.getText().toString();
-
-                            //  запиту на вхід із передачею CSRF cookie
-                            apiService.login(login, password, csrfCookie, new Callback() {
-                                @Override
-                                public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                                    if (response.isSuccessful()) {
-                                        String jsonResponse = response.body().string();
-                                        try {
-                                            JSONObject jsonObject = new JSONObject(jsonResponse);
-                                            String authToken = jsonObject.getString("token");
-
-                                            // Перевірка, чи отриманий токен
-                                            if (authToken != null && !authToken.isEmpty()) {
-                                                saveTokenToFirebase(authToken);
-
-                                                // Збереження токена в SharedPreferences
-                                                SharedPreferences preferences = getSharedPreferences("app_prefs", MODE_PRIVATE);
-                                                SharedPreferences.Editor editor = preferences.edit();
-                                                editor.putString("auth_token", authToken);
-                                                editor.apply();
-
-                                                // Перехід в MainActivity
-                                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                                startActivity(intent);
-                                                finish();
-                                            } else {
-                                                handleApiError(response);
-                                            }
-                                        } catch (JSONException e) {
-                                            e.printStackTrace();
-                                        }
-                                    } else {
-                                        handleApiError(response);
-                                    }
-                                }
-
-                                @Override
-                                public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                                    handleNetworkError(e);
-                                }
-                            });
-                        } else {
-                            handleApiError(response);
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                        handleNetworkError(e);
-                    }
-                });
+                attemptLogin();
             }
         });
+    }
+
+    private void attemptLogin() {
+        apiService.getCsrfCookie(new Callback() {
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    String csrfCookie = response.header("Set-Cookie");
+                    String login = emailEditText.getText().toString();
+                    String password = passwordEditText.getText().toString();
+
+                    apiService.login(login, password, csrfCookie, new Callback() {
+                        @Override
+                        public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                            if (response.isSuccessful()) {
+                                handleSuccessfulLogin(response);
+                            } else {
+                                handleApiError(response);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                            handleNetworkError(e);
+                        }
+                    });
+                } else {
+                    handleApiError(response);
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                handleNetworkError(e);
+            }
+        });
+    }
+
+    private void handleSuccessfulLogin(Response response) {
+        try {
+            String jsonResponse = response.body().string();
+            JSONObject jsonObject = new JSONObject(jsonResponse);
+            String authToken = jsonObject.getString("token");
+
+            if (authToken != null && !authToken.isEmpty()) {
+                saveTokenAndNavigate(authToken);
+            } else {
+                handleApiError(response);
+            }
+        } catch (IOException | JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     private void handleApiError(Response response) {
@@ -134,12 +118,27 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void saveTokenToFirebase(String authToken) {
-        // Получение текущего пользователя Firebase
-        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-        String userId = firebaseAuth.getCurrentUser().getUid();
+    private void saveTokenAndNavigate(String authToken) {
+        Log.d("Navigate", "saveTokenAndNavigate() called");
+        Log.d("Navigate", "Before saving token to SharedPreferences: " + authToken);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("authToken", authToken);
+        editor.apply();
 
-        // Сохранение токена в Realtime Database
-        databaseReference.child("users").child(userId).child("token").setValue(authToken);
+        Log.d("Navigate", "Token saved successfully in SharedPreferences: " + authToken);
+        Log.d("Navigate", "After saving token to SharedPreferences");
+
+        navigateToMainActivity();
     }
+
+    private void navigateToMainActivity() {
+        Log.d("Navigate", "Navigating to MainActivity");
+        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+
+        Log.d("Navigate", "MainActivity started");
+    }
+
 }
+

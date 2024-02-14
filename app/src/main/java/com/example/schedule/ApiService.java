@@ -12,6 +12,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import android.util.Log;
 import java.io.IOException;
+import java.util.Objects;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -20,7 +25,7 @@ import org.jsoup.nodes.Element;
 public class ApiService {
 
     private static final String BASE_URL = "https://api.college.ks.ua/";
-    private static final String TAG = "ApiService"; // Добавлен тег для логирования
+    private static final String TAG = "ApiService";
 
     private OkHttpClient client;
 
@@ -70,52 +75,25 @@ public class ApiService {
 
         Request request = new Request.Builder()
                 .url(BASE_URL + "api/login")
+                .addHeader("X-Requested-With", "XMLHttpRequest")
                 .addHeader("Cookie", csrfCookie)
-                .addHeader("Accept", "application/json")
                 .post(requestBody)
                 .build();
 
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                if (response.isSuccessful()) {
-                    // Проверка успешности ответа и типа контента
-                    String contentType = response.header("Content-Type");
-                    callback.onResponse(call, response);
-                    if (contentType != null && contentType.startsWith("application/json")) {
-                        try {
-                            JSONObject jsonObject = new JSONObject(response.body().string());
-                            // Обработка JSON
-                            Log.d(TAG, "Login successful. JSON response: " + jsonObject.toString());
-                            callback.onResponse(call, response);
-                        } catch (JSONException e) {
-                            // Обработка ошибок парсинга JSON
-                            String errorMessage = "Error parsing JSON response: " + e.getMessage();
-                            Log.e(TAG, errorMessage);
-                            callback.onFailure(call, new IOException(errorMessage));
-                        }
-                    } else {
-                        // Ошибка: ответ не в формате JSON
-                        String errorMessage = "Server response is not in JSON format";
-                        Log.e(TAG, errorMessage);
-                        callback.onFailure(call, new IOException(errorMessage));
-                    }
-                } else {
-                    // Обработка неудачного ответа
-                    String errorMessage = "Server returned unsuccessful response: " + response.code() + " " + response.message();
-                    Log.e(TAG, errorMessage);
-                    callback.onFailure(call, new IOException(errorMessage));
-                }
-            }
+        try {
+            // Виконання запиту та отримання відповіді
+            Response response = client.newCall(request).execute();
+            int responseCode = response.code();
+            String responseBody = Objects.requireNonNull(response.body()).string();
+            response.close();
 
-            @Override
-            public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                // Обработка ошибок сети
-                String errorMessage = "Network error: " + e.getMessage();
-                Log.e(TAG, errorMessage);
-                callback.onFailure(call, e);
-            }
-        });
+            Log.d(TAG, String.valueOf(responseCode));
+            Log.d(TAG, responseBody);
+
+        } catch (IOException e) {
+            // Обробка винятку IOException
+            e.printStackTrace(); // або інша логіка обробки помилки
+        }
     }
 
 
@@ -143,7 +121,6 @@ public class ApiService {
 
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                // Обработка ошибок сети
                 String errorMessage = "Network error: " + e.getMessage();
                 Log.e(TAG, errorMessage);
                 callback.onFailure(call, e);
