@@ -93,6 +93,7 @@ public class LoginActivity extends AppCompatActivity {
 
             if (authToken != null && !authToken.isEmpty()) {
                 saveTokenAndNavigate(authToken);
+                finish();
             } else {
                 handleApiError(response);
             }
@@ -121,17 +122,16 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void saveTokenAndNavigate(String authToken) {
-        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Log.d("TokenSave", "Token saved: " + authToken);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("authToken", authToken);
         editor.apply();
-        navigateToMain();
-    }
-    private void navigateToMain() {
-        Log.d("Navigation", "Navigating to Main Activity");
         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
         finish();
     }
+
 
 }
 
