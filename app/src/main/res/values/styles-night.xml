@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Base application theme for dark mode -->
+    <style name="AppThemeDark" parent="Theme.AppCompat.DayNight.DarkActionBar">
+        <item name="colorPrimary">@color/color3</item>
+        <item name="colorAccent">@color/color2</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:fontFamily">@font/montserrat_alternates_medium</item>
+        <item name="backgroundColor">@color/black</item>
+    </style>
+
+    <style name="TitleTextViewStyleDark">
+        <item name="android:textColor">?android:textColorPrimary</item>
+        <item name="android:background">?android:colorBackground</item>
+        <item name="android:fontFamily">?android:fontFamily</item>
+    </style>
+
+    <style name="MySnackbarStyleDark" parent="Widget.MaterialComponents.Snackbar">
+        <item name="backgroundTint">@color/error_color</item>
+        <item name="android:textColor">@color/snackbar_action_text_color</item>
+    </style>
+
+    <style name="ScheduleTextViewDark">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:fontFamily">@font/press_start_2p</item>
+    </style>
+
+    <style name="CustomTextView_Item_zameniDark">
+        <item name="android:fontFamily">@font/montserrat_alternates_medium</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+</resources>

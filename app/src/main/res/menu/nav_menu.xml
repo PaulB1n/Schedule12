@@ -1,38 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:showIn = "navigation_view">
+    tools:showIn="navigation_view">
 
     <group
         android:checkableBehavior="single">
 
         <item
             android:id="@+id/nav_teacher"
-            android:icon="@drawable/menu_teacher_icon"
-            android:title="@string/menu_teacher" />
+            android:icon="@drawable/menu_teacher_v2"
+            android:title="@string/menu_teacher"
+            app:itemTextAppearance="@style/CustomNavigationViewTextStyle"/>
+
+        <item
+            android:id="@+id/nav_my_teacher"
+            android:icon="@drawable/menu_my_teacher_v2"
+            android:title="@string/menu_me_teacher"
+            app:itemTextAppearance="@style/CustomNavigationViewTextStyle"/>
+
+        <item
+            android:id="@+id/nav_lesson_estimates"
+            android:icon="@drawable/lesson_estimates"
+            android:title="@string/menu_lesson_estimates"
+            app:itemTextAppearance="@style/CustomNavigationViewTextStyle"/>
 
         <item
             android:id="@+id/nav_pari"
             android:icon="@drawable/menu_book_icon"
-            android:title="@string/menu_predmet" />
+            android:title="@string/menu_predmet"
+            app:itemTextAppearance="@style/CustomNavigationViewTextStyle"/>
 
         <item
             android:id="@+id/nav_zameni"
             android:icon="@drawable/menu_zameni_icon"
-            android:title="@string/menu_zameni" />
+            android:title="@string/menu_zameni"
+            app:itemTextAppearance="@style/CustomNavigationViewTextStyle"/>
+
+        <item
+            android:id="@+id/call_schedule"
+            android:icon="@drawable/call_schedule_v2"
+            android:title="@string/menu_call_schedule"
+            app:itemTextAppearance="@style/CustomNavigationViewTextStyle"/>
+
         <item
             android:id="@+id/nav_settings"
             android:icon="@drawable/menu_settings_icon"
-            android:title="@string/menu_settings" />
+            android:title="@string/menu_settings"
+            app:itemTextAppearance="@style/CustomNavigationViewTextStyle"/>
 
     </group>
+
     <item android:title="">
         <menu>
             <item
                 android:id="@+id/nav_logout"
                 android:icon="@drawable/menu_exit_icon"
-                android:title="@string/menu_exit"/>
+                android:title="@string/menu_exit"
+                app:itemTextAppearance="@style/CustomNavigationViewTextStyle"/>
         </menu>
     </item>
 </menu>

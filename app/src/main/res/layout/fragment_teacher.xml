@@ -6,13 +6,35 @@
     android:layout_height="match_parent"
     tools:context=".TeacherFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
-        android:layout_width="wrap_content"
+        android:id="@+id/TitleCollege"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Teacher"
-        android:layout_centerInParent="true"
-        android:textColor="@color/color2"
-        android:textSize="30dp"/>
+        android:text="@string/Teachers"
+        android:textSize="24sp"
+        style="@style/TitleTextViewStyle"
+        android:gravity="center"
+        android:padding="18dp"
+        android:fontFamily="@font/montserrat_alternates_bold"
+        android:background="@color/backgraund"
+        android:textColor="@color/black"
+        android:shadowColor="#888888"
+        android:shadowDx="3"
+        android:shadowDy="3"
+        android:shadowRadius="4" />
+
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewTeachers"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/TitleCollege"
+        android:background="?android:colorBackground"
+        android:clipToPadding="false"
+        android:padding="16dp"
+        android:scrollbars="vertical"
+        android:backgroundTint="@color/backgraund"/>
+
 
 </RelativeLayout>

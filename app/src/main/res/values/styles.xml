@@ -1,13 +1,43 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <!-- Base application theme -->
-    <style
-        name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/white</item>
-        <item name="colorPrimaryDark">@color/black</item>
+    <!-- Base application theme for light mode -->
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/color3</item>
         <item name="colorAccent">@color/color2</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:fontFamily">@font/montserrat_alternates_bold</item>
+        <item name="android:background">?android:colorBackground</item>
+        <item name="android:textColorPrimary">?android:textColorPrimary</item>
     </style>
 
+    <style name="TitleTextViewStyle">
+        <item name="android:textColor">?android:textColorPrimary</item>
+        <item name="android:background">?android:colorBackground</item>
+        <item name="android:fontFamily">?android:fontFamily</item>
+    </style>
+
+    <style name="MySnackbarStyle" parent="Widget.MaterialComponents.Snackbar">
+        <item name="backgroundTint">@color/error_color</item>
+        <item name="android:textColor">@color/snackbar_action_text_color</item>
+    </style>
+
+    <style name="ScheduleTextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:fontFamily">@font/press_start_2p</item>
+    </style>
+
+    <style name="CustomTextView_Item_zameni">
+        <item name="android:fontFamily">@font/montserrat_alternates_medium</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="CustomNavigationViewStyle" parent="Theme.AppCompat.Light">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:fontFamily">@font/montserrat_alternates_bold</item>
+    </style>
+
+    <style name="CustomNavigationViewTextStyle" parent="TextAppearance.AppCompat.Body1">
+        <item name="android:fontFamily">@font/montserrat_alternates_bold</item>
+    </style>
 </resources>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF001000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="color1">#4effef</color>
+    <color name="color2">#73a6ad </color>
+    <color name="color3">#535878</color>
+    <color name="color4">#d8a7ca</color>
+    <color name="backgraund">#E3F2FD</color>
+    <string name="my_light_primary">#e0eeee</string>
+
+
+    <color name="note_login">#808080</color>
+    <color name="call1">#808080</color>
+    <color name="text_color">#06142E</color>
+
+
+    <color name="error_color">#699BF8</color>
+
+
+
+    //КОЛЬОРИ ДЛЯ ITEM_evalution
+
+
+    <color name="title_color">#FF5733</color>
+    <color name="date_label_color">#4CAF50</color>
+    <color name="type_label_color">#2196F3</color>
+    <color name="grade_label_color">#FFC107</color>
+    <color name="subject_color">#FF9800</color>
+
+    <color name="background">#FFFFFF</color>
+    <color name="primary_text">#000000</color>
+    <color name="secondary_text">#666666</color>
+
+    <color name="divider_color">#BDBDBD</color>
+
+
+    <color name="type_current">#FF9800</color>
+    <color name="type_modular">#346135</color>
+    <color name="type_final">#8A3029</color>
+
+    <color name="grade_good">#4CAF50</color>
+    <color name="grade_average">#FFEB3B</color>
+    <color name="grade_poor">#F44336</color>
+
+    <color name="background_1">#FFFFFF</color>
+    <color name="date_background">#D0E6F8</color>
+    <color name="replacement_background">#FFF9C4</color>
+    <color name="black_1">#000000</color>
+
+
+    <color name="snackbar_background_color">#FF5252</color>
+    <color name="snackbar_text_color">#FFFFFF</color>
+    <color name="snackbar_action_text_color">#FFEB3B</color>
+
+    <!-- Colors for dark mode -->
+    <color name="colorPrimaryNight">#BB86FC</color>
+    <color name="colorPrimaryDarkNight">#3700B3</color>
+    <color name="colorAccentNight">#03DAC6</color>
+    <color name="backgroundNight">#000000</color>
+    <color name="primary_textNight">#FFFFFF</color>
+    <color name="secondary_textNight">#CCCCCC</color>
+
+    <!-- Colors for light and dark mode -->
+    <color name="background_light">@color/backgraund</color>
+    <color name="background_dark">@color/call1</color>
+
+
+
+
+
+
+</resources>

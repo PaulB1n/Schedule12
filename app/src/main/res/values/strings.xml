@@ -1,42 +1,69 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="app_name">Schedule</string>
-    <string name="title_login">Login</string>
-    <string name="register_login">Sign Up</string>
+    <string name="app_name" translatable="false">XПФК НУ ОП</string>
+    <string name="title_login" translatable="false">Login</string>
+    <string name="register_login" translatable="false">Sign Up</string>
     <string name="hind_email_login">Login</string>
     <string name="hind_password_login">Password</string>
     <string name="btn_login_continue">Login</string>
     <string name="go_to_register">Зареєструватися</string>
-    <string name="text_register">Вперше тут? </string>
+    <string name="text_register">Увійдіть, використовуючи дані вашого електронного журналу </string>
     <string name="hind_username">Username</string>
+
+    <string name="Courses">Поточні навчальні програми</string>
+    <string name="Teachers">Викладачі коледжу</string>
 
     <string name="select_group_prompt">Выберите вашу группу</string>
 
+    <string name="image_description_login">Логотип коледжу</string>
 
-    <string-array name="group_array">
-        <item>Виберіть групу</item>
-        <item>111</item>
-        <item>121(171)</item>
-        <item>131</item>
-        <item>151(105)</item>
-        <item>152</item>
-        <item>161(141,191)</item>
-        <item>181</item>
-    </string-array>
+
+
+
     <string name="title_activity_main2">MainActivity2</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
-    
-    <string name="menu_teacher">Викладачі</string>
-    <string name="menu_predmet">Розклад</string>
+
+    <string name="menu_teacher">Викладачі коледжу </string>
+    <string name="menu_me_teacher">Викладачі моєї групи </string>
+    <string name="menu_predmet">"Поточні курси</string>
     <string name="menu_zameni">Заміни</string>
     <string name="menu_settings">Налаштування</string>
     <string name="menu_exit">Вихід</string>
-
+    <string name="menu_call_schedule">Розклад дзвінків</string>
+    <string name="menu_lesson_estimates">Останні оцінки</string>
 
 
     <string name="common_open_on_phone">Open on phone</string>
     <string name="close_nav">Close Navigation</string>
+
+
+    //STRINGS
+    <string name="title_call">Розклад дзвінків</string>
+    <string name="days_of_the_week">Пн,Вт,Ср,Пт</string>
+    <string name="time_1">I.9:00 - 10:00</string>
+    <string name="time_2">II.10:10 - 11:10</string>
+    <string name="time_3">III.11:40 - 12:40</string>
+    <string name="time_4">IV.12:50 - 13:50</string>
+    <string name="Thursday">Четвер</string>
+    <string name="Thursday_time_1">I.9:00 - 10:00</string>
+    <string name="Thursday_time_2">Класна година 10:10-10:40</string>
+    <string name="Thursday_time_3">II.10:50 - 11:50</string>
+    <string name="Thursday_time_4">III.12:20 - 13:20</string>
+    <string name="Thursday_time_5">IV.13:30 - 14:30</string>
+
+
+    <string name="author_name">Кльошев Павло</string>
+
+
+    // settings
+    <string name="day_night_theme">Змінити тему</string>
+
+
+
+    <string name="college_info">Відокремлений структурний підрозділ\n«ХЕРСОНСЬКИЙ ПОЛІТЕХНІЧНИЙ ФАХОВИЙ КОЛЕДЖ\nНАЦІОНАЛЬНОГО УНІВЕРСИТЕТУ «ОДЕСЬКА ПОЛІТЕХНІКА»\n\nРОЗРОБКА МОБІЛЬНОГО ЗАСТОСУНКУ ДЛЯ ANDROID З АВТОМАТИЧНИМ ОНОВЛЕННЯМ ІНФОРМАЦІЇ З ЕЛЕКТРОННОГО ЖУРНАЛУ КОЛЕДЖУ ЧЕРЕЗ ПУБЛІЧНЕ API\n\nВиконав студент 451 групи\nКльошев Павло Анатолійович\n Керівник проєкту:\nВ.М. Левицький</string>
+
+
 </resources>

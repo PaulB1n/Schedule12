@@ -4,15 +4,35 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RaspisanieFragment">
+    tools:context=".RaspisanieFragment"
+    android:background="@color/backgraund">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
-        android:layout_width="wrap_content"
+        android:id="@+id/textViewTitle"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Raspisanie"
-        android:layout_centerInParent="true"
-        android:textColor="@color/color2"
-        android:textSize="30dp"/>
+        android:text="@string/Courses"
+        android:textSize="24sp"
+        android:gravity="center"
+        android:padding="15dp"
+        android:fontFamily="@font/montserrat_alternates_bold"
+        android:background="@color/backgraund"
+        android:textColor="@color/black"
+        android:shadowColor="#888888"
+        android:shadowDx="3"
+        android:shadowDy="3"
+        android:shadowRadius="4"
+        style="@style/TitleTextViewStyle"
+        />
 
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewSchedule"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/textViewTitle"
+        android:clipToPadding="false"
+        android:scrollbars="vertical"
+        android:padding="0dp"
+        android:backgroundTint="@color/backgraund" />
 </RelativeLayout>

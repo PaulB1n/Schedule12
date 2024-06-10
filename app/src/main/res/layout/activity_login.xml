@@ -12,7 +12,8 @@
         android:layout_width="280dp"
         android:layout_height="196dp"
         android:layout_marginTop="52dp"
-        android:src="@drawable/logo"
+        android:src="@drawable/logo_main"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -44,7 +45,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:src="@drawable/email_icon" />
+            android:src="@drawable/user_icon" />
 
         <EditText
             android:id="@+id/email_et"
@@ -90,6 +91,8 @@
         android:backgroundTint="@color/color2"
         android:fontFamily="@font/montserrat"
         android:text="@string/btn_login_continue"
+        app:cornerRadius="10dp"
+        app:elevation="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/password_lin" />
@@ -97,25 +100,21 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="25dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/login_btn"
-        >
+        app:layout_constraintTop_toBottomOf="@id/login_btn">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="290dp"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat_alternates_medium"
+            android:gravity="center"
             android:text="@string/text_register"
-            android:fontFamily="@font/montserrat"/>
+            android:textColor="#808080"
+            android:textSize="15sp" />
 
-        <TextView
-            android:id="@+id/go_to_register_activity_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="7dp"
-            android:text="@string/go_to_register"
-            android:textColor="@color/color2" />
+
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

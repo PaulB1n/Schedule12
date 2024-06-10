@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/backgraund"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/TitleEvaluation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Мої останні оцінки"
+        android:textSize="24sp"
+        android:gravity="center"
+        android:padding="18dp"
+        android:fontFamily="@font/montserrat_alternates_bold"
+        android:background="@color/backgraund"
+        android:textColor="@color/black"
+        android:shadowColor="#888888"
+        android:shadowDx="3"
+        android:shadowDy="3"
+        android:shadowRadius="4"
+        style="@style/TitleTextViewStyle"
+        />
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewevaluations"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>

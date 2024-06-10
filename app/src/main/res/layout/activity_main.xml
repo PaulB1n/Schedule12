@@ -10,8 +10,6 @@
     tools:openDrawer="start"
     tools:context=".MainActivity">
 
-
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -21,26 +19,27 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            android:background="@color/color2"
-            android:elevation="4dp"
+            android:background="@color/color3"
+            android:elevation="6dp"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/fragment_container"
-            />
+            android:id="@+id/fragment_container" />
     </LinearLayout>
 
     <com.google.android.material.navigation.NavigationView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
         android:id="@+id/nav_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
         android:layout_gravity="start"
-        app:headerLayout="@layout/nav_header"
         app:menu="@menu/nav_menu"
-        app:itemIconTint="@color/color2"
-        app:itemTextColor="@color/color2"/>
+        app:headerLayout="@layout/nav_header"
+        app:itemIconTint="@color/color3"
+        app:itemTextAppearance="@style/CustomNavigationViewTextStyle"
+        android:theme="@style/CustomNavigationViewStyle"
+        android:background="@color/backgraund"/>
 
 </androidx.drawerlayout.widget.DrawerLayout>

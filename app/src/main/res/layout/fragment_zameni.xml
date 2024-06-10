@@ -1,18 +1,119 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ZameniFragment">
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@color/backgraund">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="wrap_content"
+    <!-- Header Section with Logo -->
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Zameni"
-        android:layout_centerInParent="true"
-        android:textColor="@color/color2"
-        android:textSize="30dp"/>
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:paddingBottom="8dp">
 
-</RelativeLayout>
+        <ImageView
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@drawable/logo"
+            android:layout_gravity="center_vertical"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:text="Заміни"
+            android:textSize="26sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/montserrat_alternates_bold"
+            android:textColor="@color/black"
+            android:paddingLeft="8dp"
+            android:layout_gravity="center_vertical"
+            android:shadowColor="#888888"
+            android:shadowDx="3"
+            android:shadowDy="3"
+            android:shadowRadius="4"
+            />
+
+    </LinearLayout>
+
+    <!-- Dynamic Date TextView -->
+
+
+    <!-- Table Headers -->
+    <TextView
+        android:id="@+id/textViewName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/CustomTextView_Item_zameni"
+        android:autoSizeMaxTextSize="24sp"
+        android:autoSizeMinTextSize="12sp"
+        android:autoSizeStepGranularity="2sp"
+        android:autoSizeTextType="uniform"
+        android:background="@color/date_background"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:padding="8dp"
+        android:singleLine="true"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="9dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Група"
+            android:fontFamily="@font/montserrat_alternates_bold" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Пара"
+            android:fontFamily="@font/montserrat_alternates_bold" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:text="Заняття за розкладом"
+            android:fontFamily="@font/montserrat_alternates_bold" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:text="Заняття за заміною"
+            android:fontFamily="@font/montserrat_alternates_bold" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Ауд."
+            android:fontFamily="@font/montserrat_alternates_bold" />
+    </LinearLayout>
+
+    <!-- RecyclerView for the List of Replacements -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewReplacements"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+</LinearLayout>

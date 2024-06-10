@@ -4,5 +4,10 @@
         <item>@font/montserrat</item>
         <item>@font/montserrat_alternates_bold</item>
         <item>@font/montserrat_alternates_medium</item>
+        <item>@font/press_start_2p</item>
+        <item>@font/roboto</item>
+        <item>@font/roboto_bold</item>
+        <item>@font/rubik_bold</item>
+        <item>@font/rubik_medium</item>
     </array>
 </resources>

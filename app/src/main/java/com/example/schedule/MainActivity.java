@@ -21,12 +21,19 @@ import androidx.fragment.app.FragmentManager;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
+import androidx.appcompat.app.AppCompatDelegate;
+
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout drawerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // Инициализация темы
+        SharedPreferences sharedPreferences = getSharedPreferences("theme_prefs", Context.MODE_PRIVATE);
+        boolean isNightMode = sharedPreferences.getBoolean("theme", false);
+        AppCompatDelegate.setDefaultNightMode(isNightMode ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -45,17 +52,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
-        // Перевірка наявності токену при створенні активності
+        // Проверка наличия токена при создании активности
         if (!isTokenAvailable()) {
-            // Якщо токен відсутній, перенаправте користувача на екран входу
+            // Если токен отсутствует, перенаправьте пользователя на экран входа
             startActivity(new Intent(MainActivity.this, LoginActivity.class));
             finish();
             return;
         }
 
         if (savedInstanceState == null) {
-            replaceFragment(new RaspisanieFragment());
-            navigationView.setCheckedItem(R.id.nav_pari);
+            replaceFragment(new ZameniFragment());
+            navigationView.setCheckedItem(R.id.nav_zameni);
         }
     }
 
@@ -65,12 +72,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (itemId == R.id.nav_teacher) {
             replaceFragment(new TeacherFragment());
+        } else if (itemId == R.id.nav_my_teacher) {
+            replaceFragment(new MyGroupTeachersFragment());
         } else if (itemId == R.id.nav_pari) {
             replaceFragment(new RaspisanieFragment());
+        } else if (itemId == R.id.nav_lesson_estimates) {
+            replaceFragment(new EvaluationFragment());
         } else if (itemId == R.id.nav_zameni) {
             replaceFragment(new ZameniFragment());
         } else if (itemId == R.id.nav_settings) {
             replaceFragment(new SettingsFragment());
+        } else if (itemId == R.id.call_schedule) {
+            replaceFragment(new CallScheduleFragment());
         } else if (itemId == R.id.nav_logout) {
             logout();
             Toast.makeText(this, "Logout!", Toast.LENGTH_SHORT).show();
@@ -96,21 +109,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void logout() {
-        // Очищення токену при виході
         clearAuthToken();
         FirebaseAuth.getInstance().signOut();
         startActivity(new Intent(MainActivity.this, LoginActivity.class));
         finish();
     }
 
-    // Перевірка наявності токену в SharedPreferences
+    // Проверка наличия токена в SharedPreferences
     private boolean isTokenAvailable() {
         SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         String authToken = sharedPreferences.getString("authToken", "");
         return !TextUtils.isEmpty(authToken);
     }
 
-    // Очищення токену в SharedPreferences
     private void clearAuthToken() {
         SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -121,9 +132,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onResume() {
         super.onResume();
-        // Перевірка наявності токену при відновленні активності
+        // Проверка наличия токена при восстановлении активности
         if (!isTokenAvailable()) {
-            // Якщо токен відсутній, перенаправте користувача на екран входу
+            // Если токен отсутствует, перенаправьте пользователя на экран входа
             startActivity(new Intent(MainActivity.this, LoginActivity.class));
             finish();
         }
@@ -138,4 +149,3 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 }
-

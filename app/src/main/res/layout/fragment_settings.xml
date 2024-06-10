@@ -1,18 +1,44 @@
-<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/settings_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SettingsFragment">
+    android:background="?android:colorBackground"
+    tools:context=".SettingsFragment"
+    android:theme="@style/Theme.Schedule">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:id="@+id/change_theme_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Settings"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/rubik_medium"
+        android:text="@string/day_night_theme"
+        android:textColor="?android:textColorSecondary"/>
+
+    <Switch
+        android:id="@+id/theme_switch"
+        android:layout_width="91dp"
+        android:layout_height="69dp"
+        android:layout_below="@id/change_theme_label"
+        android:layout_alignEnd="@id/change_theme_label"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="-40dp"
+        android:layout_marginEnd="-243dp"
+        android:checked="false"
+        android:textSize="27sp"/>
+
+    <TextView
+        android:id="@+id/college_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:textColor="@color/color2"
-        android:textSize="30dp"/>
+        android:text="@string/college_info"
+        android:textAlignment="center"
+        android:textColor="?android:textColorSecondary"
+        android:padding="16dp"
+        android:fontFamily="@font/montserrat_alternates_bold"/>
 
 </RelativeLayout>
