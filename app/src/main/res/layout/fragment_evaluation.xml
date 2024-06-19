@@ -1,32 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/swipeRefreshLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/backgraund"
-    android:orientation="vertical">
+    android:background="@color/backgraund">
 
-    <TextView
-        android:id="@+id/TitleEvaluation"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Мої останні оцінки"
-        android:textSize="24sp"
-        android:gravity="center"
-        android:padding="18dp"
-        android:fontFamily="@font/montserrat_alternates_bold"
-        android:background="@color/backgraund"
-        android:textColor="@color/black"
-        android:shadowColor="#888888"
-        android:shadowDx="3"
-        android:shadowDy="3"
-        android:shadowRadius="4"
-        style="@style/TitleTextViewStyle"
-        />
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:background="@color/backgraund">
 
+        <TextView
+            android:id="@+id/TitleEvaluation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Мої останні оцінки"
+            android:textSize="24sp"
+            android:gravity="center"
+            android:padding="16dp"
+            android:fontFamily="@font/montserrat_alternates_bold"
+            android:textColor="@color/black"
+            android:background="@color/backgraund"
+            android:elevation="8dp"
+            android:layout_marginBottom="16dp"
+            android:layout_marginTop="16dp"
+            android:shadowColor="#888888"
+            android:shadowDx="0"
+            android:shadowDy="2"
+            android:shadowRadius="6"
+            style="@style/TitleTextViewStyle_1"/>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewevaluations"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        <Spinner
+            android:id="@+id/subjectSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:background="@drawable/spinner_background_rounded"
+            android:layout_marginBottom="16dp"
+            android:elevation="8dp"
+            style="@style/CustomSpinnerStyle"
+            android:backgroundTint="@color/backgraund"/>
 
-</LinearLayout>
+        <ProgressBar
+            android:id="@+id/loadingIndicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            android:layout_marginBottom="16dp"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewevaluations"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:padding="16dp"
+            android:background="@color/backgraund"
+            android:elevation="8dp"/>
+    </LinearLayout>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

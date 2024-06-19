@@ -1,4 +1,3 @@
-// ScheduleAdapter.java
 package com.example.schedule;
 
 import android.view.LayoutInflater;

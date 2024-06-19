@@ -49,7 +49,7 @@
     <color name="black_1">#000000</color>
 
 
-    <color name="snackbar_background_color">#FF5252</color>
+    <color name="snackbar_background_color">#FF5555</color>
     <color name="snackbar_text_color">#FFFFFF</color>
     <color name="snackbar_action_text_color">#FFEB3B</color>
 

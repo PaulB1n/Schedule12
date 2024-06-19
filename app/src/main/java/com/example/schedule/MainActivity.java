@@ -22,14 +22,20 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.work.Data;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkManager;
+
+import java.io.File;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout drawerLayout;
+    private boolean isActivityActive;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // Инициализация темы
+        // Ініціалізація теми
         SharedPreferences sharedPreferences = getSharedPreferences("theme_prefs", Context.MODE_PRIVATE);
         boolean isNightMode = sharedPreferences.getBoolean("theme", false);
         AppCompatDelegate.setDefaultNightMode(isNightMode ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
@@ -52,17 +58,35 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
-        // Проверка наличия токена при создании активности
+        isActivityActive = true;
+
+        // Перевірка наявності токену при створенні активності
         if (!isTokenAvailable()) {
-            // Если токен отсутствует, перенаправьте пользователя на экран входа
+            // Якщо токен відсутній, перенаправте користувача на екран входу
             startActivity(new Intent(MainActivity.this, LoginActivity.class));
             finish();
             return;
         }
 
+        // Запуск WorkManager для попереднього завантаження даних
+        startDataPreloadWorker();
+
         if (savedInstanceState == null) {
             replaceFragment(new ZameniFragment());
             navigationView.setCheckedItem(R.id.nav_zameni);
+        }
+    }
+
+    private void startDataPreloadWorker() {
+        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        String authToken = sharedPreferences.getString("authToken", null);
+
+        if (authToken != null) {
+            Data inputData = new Data.Builder().putString("authToken", authToken).build();
+            OneTimeWorkRequest preloadWorkRequest = new OneTimeWorkRequest.Builder(DataPreloadWorker.class)
+                    .setInputData(inputData)
+                    .build();
+            WorkManager.getInstance(this).enqueue(preloadWorkRequest);
         }
     }
 
@@ -109,13 +133,55 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void logout() {
+        clearAppData();
         clearAuthToken();
         FirebaseAuth.getInstance().signOut();
         startActivity(new Intent(MainActivity.this, LoginActivity.class));
         finish();
     }
 
-    // Проверка наличия токена в SharedPreferences
+    private void clearAppData() {
+        try {
+            // Clear app cache
+            File dir = getCacheDir();
+            deleteDir(dir);
+
+            // Clear shared preferences except authToken
+            SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+            String authToken = sharedPreferences.getString("authToken", null);
+
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.clear().apply();
+
+            if (authToken != null) {
+                editor.putString("authToken", authToken);
+                editor.apply();
+            }
+
+            sharedPreferences = getSharedPreferences("theme_prefs", Context.MODE_PRIVATE);
+            sharedPreferences.edit().clear().apply();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static boolean deleteDir(File dir) {
+        if (dir != null && dir.isDirectory()) {
+            String[] children = dir.list();
+            for (int i = 0; i < children.length; i++) {
+                boolean success = deleteDir(new File(dir, children[i]));
+                if (!success) {
+                    return false;
+                }
+            }
+            return dir.delete();
+        } else if (dir != null && dir.isFile()) {
+            return dir.delete();
+        } else {
+            return false;
+        }
+    }
+
     private boolean isTokenAvailable() {
         SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         String authToken = sharedPreferences.getString("authToken", "");
@@ -132,9 +198,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onResume() {
         super.onResume();
-        // Проверка наличия токена при восстановлении активности
+        if (isActivityActive) {
+            isActivityActive = false;
+            return;
+        }
+        // Перевірка наявності токену при відновленні активності
         if (!isTokenAvailable()) {
-            // Если токен отсутствует, перенаправьте пользователя на экран входа
+            // Якщо токен відсутній, перенаправте користувача на екран входу
             startActivity(new Intent(MainActivity.this, LoginActivity.class));
             finish();
         }

@@ -44,6 +44,6 @@ public class SettingsFragment extends Fragment {
 
     private void updateTheme(boolean isNightMode) {
         AppCompatDelegate.setDefaultNightMode(isNightMode ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
-        requireActivity().recreate(); // This ensures the activity restarts to apply the new theme
+        requireActivity().recreate();
     }
 }

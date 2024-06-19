@@ -1,7 +1,6 @@
 package com.example.schedule;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,14 +9,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.GlideException;
-import com.bumptech.glide.request.RequestOptions;
-import com.bumptech.glide.request.target.Target;
-import com.bumptech.glide.request.RequestListener;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
 
@@ -58,24 +53,21 @@ public class TeachersAdapter extends RecyclerView.Adapter<TeachersAdapter.ViewHo
             String imageUrl = "https://api.college.ks.ua/api/teachers/" + teacherId + "/avatar";
             Log.d(TAG, "Loading Image URL: " + imageUrl);
 
-            Glide.with(context)
+            Picasso.get()
                     .load(imageUrl)
-                    .apply(new RequestOptions()
-                            .placeholder(placeholderResource)
-                            .error(errorResource))
-                    .listener(new RequestListener<Drawable>() {
+                    .placeholder(placeholderResource)
+                    .error(errorResource)
+                    .into(holder.imageTeacher, new Callback() {
                         @Override
-                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                            Log.e(TAG, "Image load failed for URL: " + imageUrl, e);
-                            return false;
+                        public void onSuccess() {
+                            Log.d(TAG, "Image loaded successfully with Picasso");
                         }
 
                         @Override
-                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, com.bumptech.glide.load.DataSource dataSource, boolean isFirstResource) {
-                            return false;
+                        public void onError(Exception e) {
+                            Log.e(TAG, "Image load failed with Picasso for URL: " + imageUrl, e);
                         }
-                    })
-                    .into(holder.imageTeacher);
+                    });
 
         } catch (Exception e) {
             Log.e(TAG, "Exception in onBindViewHolder", e);

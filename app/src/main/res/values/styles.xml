@@ -40,4 +40,20 @@
     <style name="CustomNavigationViewTextStyle" parent="TextAppearance.AppCompat.Body1">
         <item name="android:fontFamily">@font/montserrat_alternates_bold</item>
     </style>
+
+    <style name="CustomSpinnerStyle" parent="Widget.AppCompat.Spinner">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/spinner_background_rounded</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:dropDownSelector">@drawable/spinner_selector</item>
+    </style>
+
+    <style name="TitleTextViewStyle_1">
+        <item name="android:shadowColor">#888888</item>
+        <item name="android:shadowDx">3</item>
+        <item name="android:shadowDy">3</item>
+        <item name="android:shadowRadius">4</item>
+    </style>
+
 </resources>

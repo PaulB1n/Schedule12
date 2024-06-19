@@ -16,23 +16,24 @@ import androidx.recyclerview.widget.RecyclerView;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
+import java.util.stream.Collectors;
+import java.util.Date;
 
 public class EvaluationAdapter extends RecyclerView.Adapter<EvaluationAdapter.ViewHolder> {
 
     private List<JSONObject> evaluations;
+    private List<JSONObject> filteredEvaluations;
     private Context context;
-    private SimpleDateFormat inputDateFormat;
-    private SimpleDateFormat outputDateFormat;
+    private int itemsPerPage = 10;
+    private int currentPage = 0;
 
     public EvaluationAdapter(Context context, List<JSONObject> evaluations) {
         this.context = context;
         this.evaluations = evaluations;
-        this.inputDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-        this.outputDateFormat = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
+        this.filteredEvaluations = new ArrayList<>();
+        loadMore();
     }
 
     @NonNull
@@ -45,18 +46,13 @@ public class EvaluationAdapter extends RecyclerView.Adapter<EvaluationAdapter.Vi
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         try {
-            JSONObject evaluation = evaluations.get(position);
+            JSONObject evaluation = filteredEvaluations.get(position);
             holder.textViewTitle.setText(evaluation.getString("title"));
-
-            // Преобразування формату дати
-            String dateStr = evaluation.getString("date");
-            holder.textViewDate.setText("Дата: " + formatDateString(dateStr));
-
-            int mark = evaluation.getInt("mark");
+            holder.textViewDate.setText("Дата: " + DateUtils.formatDateString(evaluation.getString("date")));
+            int mark = getMarkValue(evaluation);
             int maxGrade = evaluation.getInt("max_grade");
             holder.textViewActualGrade.setText(getGradeText(mark, maxGrade));
 
-            // Отримуємо назву предмету з об'єкту subject
             if (evaluation.has("subject")) {
                 JSONObject subject = evaluation.getJSONObject("subject");
                 holder.textViewSubject.setText("Предмет: " + subject.getString("subject_name"));
@@ -65,7 +61,6 @@ public class EvaluationAdapter extends RecyclerView.Adapter<EvaluationAdapter.Vi
                 holder.textViewSubject.setText("Предмет: ");
             }
 
-            // Встановлюємо колір тексту в залежності від типу завдання
             String type = evaluation.getString("type_str");
             holder.textViewType.setText(getSpannableTypeText(type));
             holder.textViewType.setTextColor(ContextCompat.getColor(context, R.color.text_color));
@@ -77,12 +72,32 @@ public class EvaluationAdapter extends RecyclerView.Adapter<EvaluationAdapter.Vi
 
     @Override
     public int getItemCount() {
-        return evaluations.size();
+        return filteredEvaluations.size();
     }
 
-    private String formatDateString(String dateStr) throws ParseException {
-        Date date = inputDateFormat.parse(dateStr);
-        return outputDateFormat.format(date);
+    public void loadMore() {
+        int start = currentPage * itemsPerPage;
+        int end = Math.min(start + itemsPerPage, evaluations.size());
+        if (start < end) {
+            for (int i = start; i < end; i++) {
+                filteredEvaluations.add(evaluations.get(i));
+            }
+            currentPage++;
+            notifyDataSetChanged();
+        }
+    }
+
+    private int getMarkValue(JSONObject evaluation) throws JSONException {
+        try {
+            return evaluation.getInt("mark");
+        } catch (JSONException e) {
+            String markStr = evaluation.getString("mark");
+            if ("-".equals(markStr) || "Зар".equals(markStr)) {
+                return 0; // або інше значення за замовчуванням
+            } else {
+                throw e;
+            }
+        }
     }
 
     private SpannableString getSpannableTypeText(String type) {
@@ -115,11 +130,11 @@ public class EvaluationAdapter extends RecyclerView.Adapter<EvaluationAdapter.Vi
         String gradeText = "Оцінка: " + mark + " / " + maxGrade;
         int gradeColorResId;
         if (mark >= maxGrade * 0.75) {
-            gradeColorResId = R.color.grade_good; // Високі оцінки
+            gradeColorResId = R.color.grade_good;
         } else if (mark >= maxGrade * 0.5) {
-            gradeColorResId = R.color.grade_average; // Середні оцінки
+            gradeColorResId = R.color.grade_average;
         } else {
-            gradeColorResId = R.color.grade_poor; // Низькі оцінки
+            gradeColorResId = R.color.grade_poor;
         }
 
         SpannableString spannableGradeString = new SpannableString(gradeText);
@@ -128,6 +143,46 @@ public class EvaluationAdapter extends RecyclerView.Adapter<EvaluationAdapter.Vi
         spannableGradeString.setSpan(new StyleSpan(android.graphics.Typeface.BOLD),
                 "Оцінка: ".length(), ("Оцінка: " + mark).length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         return spannableGradeString;
+    }
+
+    public void filterBySubject(String subjectName) {
+        filteredEvaluations.clear();
+        currentPage = 0; // Скидання лічильника сторінок
+        if ("All".equals(subjectName)) {
+            filteredEvaluations.addAll(evaluations.subList(0, Math.min(itemsPerPage, evaluations.size())));
+        } else if ("За останій місяць".equals(subjectName)) {
+            filterByLastMonth();
+        } else {
+            filteredEvaluations.addAll(evaluations.stream()
+                    .filter(evaluation -> {
+                        try {
+                            return evaluation.getJSONObject("subject").getString("subject_name").equals(subjectName);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            return false;
+                        }
+                    })
+                    .collect(Collectors.toList()));
+        }
+        loadMore();
+    }
+
+    private void filterByLastMonth() {
+        long currentTime = System.currentTimeMillis();
+        long oneMonthAgo = currentTime - 30L * 24 * 60 * 60 * 1000;
+        filteredEvaluations.addAll(evaluations.stream()
+                .filter(evaluation -> {
+                    try {
+                        String dateStr = evaluation.getString("date");
+                        Date date = DateUtils.parseDateString(dateStr);
+                        return date != null && date.getTime() >= oneMonthAgo;
+                    } catch (JSONException | ParseException e) {
+                        e.printStackTrace();
+                        return false;
+                    }
+                })
+                .collect(Collectors.toList()));
+        loadMore();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

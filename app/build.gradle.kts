@@ -30,6 +30,13 @@ android {
     buildFeatures{
         viewBinding = true
     }
+    sourceSets {
+        getByName("main") {
+            assets {
+                srcDirs("src\\main\\assets", "src\\main\\assets\\2")
+            }
+        }
+    }
 }
 
 dependencies {
@@ -65,5 +72,15 @@ dependencies {
     implementation ("org.jsoup:jsoup:1.14.3")
 
     implementation ("com.squareup.picasso:picasso:2.71828")
+
+    implementation ("androidx.work:work-runtime:2.7.1")
+
+    implementation ("com.squareup.picasso:picasso:2.71828")
+
+
+    implementation ("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
+
+    implementation ("androidx.recyclerview:recyclerview:1.2.1")
+
 
 }

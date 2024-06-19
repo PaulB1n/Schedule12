@@ -41,3 +41,4 @@
         android:scaleType="centerCrop"
         android:src="@drawable/incog"/>
 </LinearLayout>
+

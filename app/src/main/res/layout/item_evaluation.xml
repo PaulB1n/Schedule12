@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:background="@color/backgraund"
     android:orientation="vertical"
-    android:padding="16dp"
+    android:padding="10dp"
     android:theme="@style/AppTheme"
     android:backgroundTint="@color/backgraund">
 
@@ -17,7 +17,7 @@
         android:textColor="@color/text_color"
         android:textSize="18sp"
         android:textStyle="bold"
-        android:background="@color/backgraund"/>
+        android:background="@color/backgraund" />
 
 
     <TextView

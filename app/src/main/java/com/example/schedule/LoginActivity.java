@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
-import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -128,17 +127,13 @@ public class LoginActivity extends AppCompatActivity {
         View view = findViewById(android.R.id.content);
         Snackbar snackbar = Snackbar.make(view, message, Snackbar.LENGTH_SHORT);
 
-        // Отримати View Snackbar та змінити його фон
         View snackbarView = snackbar.getView();
         snackbarView.setBackgroundColor(ContextCompat.getColor(this, R.color.snackbar_background_color));
 
-        // Змінити колір тексту
         TextView textView = snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
         textView.setTextColor(ContextCompat.getColor(this, R.color.snackbar_text_color));
 
-        // Змінити колір тексту дії
         snackbar.setActionTextColor(ContextCompat.getColor(this, R.color.snackbar_action_text_color));
-
         snackbar.show();
     }
 

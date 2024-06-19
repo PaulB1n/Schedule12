@@ -12,9 +12,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import android.util.Log;
+
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
+
 import okhttp3.ResponseBody;
 
 public class ApiService {
@@ -26,7 +29,11 @@ public class ApiService {
     private Set<Call> activeCalls;
 
     public ApiService() {
-        this.client = new OkHttpClient();
+        this.client = new OkHttpClient.Builder()
+                .connectTimeout(60, TimeUnit.SECONDS)  // Установка таймаута подключения
+                .readTimeout(60, TimeUnit.SECONDS)     // Установка таймаута чтения
+                .writeTimeout(60, TimeUnit.SECONDS)    // Установка таймаута записи
+                .build();
         this.activeCalls = new HashSet<>();
     }
 

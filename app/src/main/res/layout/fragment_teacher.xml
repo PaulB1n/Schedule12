@@ -23,8 +23,6 @@
         android:shadowDy="3"
         android:shadowRadius="4" />
 
-
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewTeachers"
         android:layout_width="match_parent"
@@ -35,6 +33,5 @@
         android:padding="16dp"
         android:scrollbars="vertical"
         android:backgroundTint="@color/backgraund"/>
-
-
 </RelativeLayout>
+
