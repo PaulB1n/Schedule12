@@ -27,6 +27,13 @@
             app:itemTextAppearance="@style/CustomNavigationViewTextStyle"/>
 
         <item
+            android:id="@+id/nav_schedule_estimates"
+            android:icon="@drawable/schedule_estimates"
+            android:title="@string/menu_schedule_estimates"
+            app:itemTextAppearance="@style/CustomNavigationViewTextStyle"/>
+
+
+        <item
             android:id="@+id/nav_pari"
             android:icon="@drawable/menu_book_icon"
             android:title="@string/menu_predmet"

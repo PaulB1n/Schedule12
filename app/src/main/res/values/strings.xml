@@ -29,6 +29,7 @@
     <string name="menu_teacher">Викладачі коледжу </string>
     <string name="menu_me_teacher">Викладачі моєї групи </string>
     <string name="menu_predmet">"Поточні курси</string>
+    <string name="menu_schedule_estimates">"Розклад занять</string>
     <string name="menu_zameni">Заміни</string>
     <string name="menu_settings">Налаштування</string>
     <string name="menu_exit">Вихід</string>

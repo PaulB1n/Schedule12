@@ -55,6 +55,21 @@
             android:exported="false">
         </activity>
 
+        <activity
+            android:name=".CoursesFragment"
+            android:exported="true">
+        </activity>
+
+        <activity
+            android:name=".GroupsFragment"
+            android:exported="true">
+        </activity>
+
+        <activity
+            android:name=".ScheduleFragment"
+            android:exported="true">
+        </activity>
+
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />

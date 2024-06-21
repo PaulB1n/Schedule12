@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // Ініціалізація теми
+        // Инициализация темы
         SharedPreferences sharedPreferences = getSharedPreferences("theme_prefs", Context.MODE_PRIVATE);
         boolean isNightMode = sharedPreferences.getBoolean("theme", false);
         AppCompatDelegate.setDefaultNightMode(isNightMode ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
@@ -60,15 +60,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         isActivityActive = true;
 
-        // Перевірка наявності токену при створенні активності
+        // Проверка наличия токена при создании активности
         if (!isTokenAvailable()) {
-            // Якщо токен відсутній, перенаправте користувача на екран входу
+            // Если токен отсутствует, перенаправьте пользователя на экран входа
             startActivity(new Intent(MainActivity.this, LoginActivity.class));
             finish();
             return;
         }
 
-        // Запуск WorkManager для попереднього завантаження даних
+        // Запуск WorkManager для предварительной загрузки данных
         startDataPreloadWorker();
 
         if (savedInstanceState == null) {
@@ -111,8 +111,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (itemId == R.id.nav_logout) {
             logout();
             Toast.makeText(this, "Logout!", Toast.LENGTH_SHORT).show();
+        } else if (itemId == R.id.nav_schedule_estimates) {
+            replaceFragment(new CoursesFragment());
         }
-
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
@@ -202,9 +203,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             isActivityActive = false;
             return;
         }
-        // Перевірка наявності токену при відновленні активності
+        // Проверка наличия токена при восстановлении активности
         if (!isTokenAvailable()) {
-            // Якщо токен відсутній, перенаправте користувача на екран входу
+            // Если токен отсутствует, перенаправьте пользователя на экран входа
             startActivity(new Intent(MainActivity.this, LoginActivity.class));
             finish();
         }

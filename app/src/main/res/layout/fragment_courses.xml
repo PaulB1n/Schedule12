@@ -1,0 +1,70 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp"
+    android:background="@color/backgraund">
+
+    <TextView
+        android:id="@+id/textViewTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Оберіть свій навчальний курс"
+        android:textSize="22sp"
+        android:gravity="center"
+        android:padding="15dp"
+        android:fontFamily="@font/montserrat_alternates_bold"
+        android:background="@color/backgraund"
+        android:textColor="@color/black"
+        android:shadowColor="#888888"
+        android:shadowDx="3"
+        android:shadowDy="3"
+        android:shadowRadius="4"
+        style="@style/TitleTextViewStyle" />
+
+    <Button
+        android:id="@+id/button_course_1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="1 КУРС"
+        android:textColor="@color/white"
+        android:background="@drawable/button_background_group"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="15dp"
+        android:elevation="8dp"
+        android:fontFamily="@font/montserrat_alternates_bold"/>
+
+    <Button
+        android:id="@+id/button_course_2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="2 КУРС"
+        android:textColor="@color/white"
+        android:background="@drawable/button_background_group"
+        android:layout_marginBottom="20dp"
+        android:elevation="8dp"
+        android:fontFamily="@font/montserrat_alternates_bold"/>
+
+    <Button
+        android:id="@+id/button_course_3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="3 КУРС"
+        android:textColor="@color/white"
+        android:background="@drawable/button_background_group"
+        android:layout_marginBottom="20dp"
+        android:elevation="8dp"
+        android:fontFamily="@font/montserrat_alternates_bold"/>
+
+    <Button
+        android:id="@+id/button_course_4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="4 КУРС"
+        android:textColor="@color/white"
+        android:background="@drawable/button_background_group"
+        android:layout_marginBottom="20dp"
+        android:elevation="8dp"
+        android:fontFamily="@font/montserrat_alternates_bold"/>
+
+</LinearLayout>
