@@ -82,5 +82,10 @@ dependencies {
 
     implementation ("androidx.recyclerview:recyclerview:1.2.1")
 
+    implementation ("com.squareup.picasso:picasso:2.71828")
+    implementation ("com.squareup.okhttp3:okhttp:4.9.1") // OkHttp3
+    implementation ("com.squareup.picasso:picasso:2.71828")
+    implementation ("com.jakewharton.picasso:picasso2-okhttp3-downloader:1.1.0")
+
 
 }

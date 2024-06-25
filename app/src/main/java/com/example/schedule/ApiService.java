@@ -14,7 +14,9 @@ import org.json.JSONObject;
 import android.util.Log;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
@@ -36,6 +38,8 @@ public class ApiService {
                 .build();
         this.activeCalls = new HashSet<>();
     }
+
+
 
     public static String getBaseUrl() {
         return BASE_URL;
@@ -78,6 +82,17 @@ public class ApiService {
     public void getCsrfCookie(Callback callback) {
         Request request = new Request.Builder()
                 .url(BASE_URL + "sanctum/csrf-cookie")
+                .get()
+                .build();
+
+        Call call = client.newCall(request);
+        enqueueCall(call, callback);
+    }
+
+    public void getUserData(Callback callback) {
+        Request request = new Request.Builder()
+                .url(BASE_URL + "sanctum/csrf-cookie")
+
                 .get()
                 .build();
 
@@ -243,5 +258,31 @@ public class ApiService {
 
         Call call = client.newCall(request);
         enqueueCall(call, callback);
+    }
+
+    public List<JSONObject> getTeachersData(String token) throws IOException {
+        Request request = new Request.Builder()
+                .url(BASE_URL + "api/teachers")
+                .addHeader("Authorization", "Bearer " + token)
+                .build();
+
+        Call call = client.newCall(request);
+        Response response = call.execute();
+
+        if (!response.isSuccessful()) {
+            throw new IOException("Unexpected code " + response);
+        }
+
+        List<JSONObject> teachersList = new ArrayList<>();
+        try {
+            JSONArray jsonArray = new JSONArray(response.body().string());
+            for (int i = 0; i < jsonArray.length(); i++) {
+                teachersList.add(jsonArray.getJSONObject(i));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return teachersList;
     }
 }

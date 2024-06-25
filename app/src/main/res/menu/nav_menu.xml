@@ -46,6 +46,12 @@
             app:itemTextAppearance="@style/CustomNavigationViewTextStyle"/>
 
         <item
+            android:id="@+id/nav_news"
+            android:icon="@drawable/menu_news"
+            android:title="@string/menu_news"
+            app:itemTextAppearance="@style/CustomNavigationViewTextStyle"/>
+
+        <item
             android:id="@+id/call_schedule"
             android:icon="@drawable/call_schedule_v2"
             android:title="@string/menu_call_schedule"

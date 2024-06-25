@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -27,11 +28,26 @@ import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkManager;
 
 import java.io.File;
+import java.io.IOException;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import org.json.JSONArray;
+
+import android.view.View;
+
+
+
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout drawerLayout;
     private boolean isActivityActive;
+    private ApiService apiService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +75,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toggle.syncState();
 
         isActivityActive = true;
+        apiService = new ApiService();
 
         // Проверка наличия токена при создании активности
         if (!isTokenAvailable()) {
@@ -70,6 +87,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         // Запуск WorkManager для предварительной загрузки данных
         startDataPreloadWorker();
+
+        // Получение и отображение информации о пользователе
+        getUserProfile();
 
         if (savedInstanceState == null) {
             replaceFragment(new ZameniFragment());
@@ -110,9 +130,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             replaceFragment(new CallScheduleFragment());
         } else if (itemId == R.id.nav_logout) {
             logout();
-            Toast.makeText(this, "Logout!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "До побачення! Ви вийшли з системи.", Toast.LENGTH_SHORT).show();
         } else if (itemId == R.id.nav_schedule_estimates) {
             replaceFragment(new CoursesFragment());
+        } else if (itemId == R.id.nav_news) {
+            replaceFragment(new NewsFragment());
         }
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
@@ -195,6 +217,54 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         editor.remove("authToken");
         editor.apply();
     }
+
+    private void getUserProfile() {
+        apiService.getUserData(new Callback() {
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    try {
+                        String responseBody = response.body().string();
+                        Log.d("MainActivity", "Response body: " + responseBody);
+
+                        JSONObject jsonResponse = new JSONObject(responseBody);
+                        JSONObject user = jsonResponse.getJSONObject("user");
+                        String fullName = user.getJSONObject("userable").getString("fullname");
+                        String roles = user.getString("roles");
+
+                        Log.d("MainActivity", "Full name: " + fullName + ", Roles: " + roles);
+
+                        runOnUiThread(() -> updateNavHeader(fullName, roles));
+                    } catch (JSONException e) {
+                        Log.e("MainActivity", "Failed to parse JSON", e);
+                    }
+                } else {
+                    Log.e("MainActivity", "Failed to fetch user profile. Code: " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e("MainActivity", "Network error: " + e.getMessage());
+            }
+        });
+    }
+
+
+
+
+    private void updateNavHeader(String fullName, String roles) {
+        Log.d("updateNavHeader", "Full Name: " + fullName + ", Roles: " + roles);
+
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        View headerView = navigationView.getHeaderView(0); // Получаем представление заголовка
+        TextView fullnameTextView = headerView.findViewById(R.id.fullname_textview);
+        TextView roleTextView = headerView.findViewById(R.id.role_textview);
+
+        fullnameTextView.setText(fullName);
+        roleTextView.setText(roles);
+    }
+
 
     @Override
     protected void onResume() {

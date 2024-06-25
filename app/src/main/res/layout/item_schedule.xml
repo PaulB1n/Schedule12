@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -21,7 +20,8 @@
             android:layout_height="wrap_content"
             android:textSize="16sp"
             android:text="Інженерія"
-            android:layout_weight="2" />
+            android:layout_weight="2"
+            android:textColor="@color/secondary_text"/>
 
         <TextView
             android:id="@+id/textViewSubjectName"
@@ -32,7 +32,8 @@
             android:textStyle="bold"
             android:fontFamily="@font/montserrat_alternates_bold"
             android:text="Інж"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:textColor="@color/primary_text"/>
 
         <TextView
             android:id="@+id/textViewTeacherName"
@@ -41,16 +42,15 @@
             android:fontFamily="@font/montserrat_alternates_medium"
             android:textSize="16sp"
             android:text=""
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:textColor="@color/secondary_text"/>
     </LinearLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:background="@android:color/darker_gray"
-        android:layout_alignParentBottom="true"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
-        android:elevation="2dp"
-        android:backgroundTint="@color/secondary_text" />
+        android:background="@drawable/gradient_divider"
+        android:elevation="2dp" />
 </RelativeLayout>

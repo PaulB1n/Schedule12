@@ -5,8 +5,9 @@
     android:background="@color/backgraund"
     android:orientation="vertical"
     android:padding="10dp"
-    android:theme="@style/AppTheme"
-    android:backgroundTint="@color/backgraund">
+    android:theme="@style/Theme.Schedule"
+    android:backgroundTint="@color/backgraund"
+    >
 
 
     <TextView

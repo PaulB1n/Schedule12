@@ -4,7 +4,8 @@
     android:id="@+id/swipeRefreshLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/backgraund">
+    android:background="@color/backgraund"
+    android:theme="@style/Theme.Schedule">
 
     <LinearLayout
         android:layout_width="match_parent"

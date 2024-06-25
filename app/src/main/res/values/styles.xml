@@ -5,7 +5,7 @@
         <item name="colorAccent">@color/color2</item>
         <item name="android:textColor">@color/black</item>
         <item name="android:fontFamily">@font/montserrat_alternates_bold</item>
-        <item name="android:background">?android:colorBackground</item>
+        <item name="android:background">@color/backgraund</item>
         <item name="android:textColorPrimary">?android:textColorPrimary</item>
     </style>
 

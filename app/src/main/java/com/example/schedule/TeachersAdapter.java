@@ -11,25 +11,52 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.jakewharton.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class TeachersAdapter extends RecyclerView.Adapter<TeachersAdapter.ViewHolder> {
     private static final String TAG = "TeachersAdapter";
     private Context context;
     private List<JSONObject> teachersList;
-    private int placeholderResource;
-    private int errorResource;
+    private String authToken;
+    private Picasso picasso;
 
-    public TeachersAdapter(Context context, List<JSONObject> teachersList, int placeholderResource, int errorResource) {
+    public TeachersAdapter(Context context, List<JSONObject> teachersList, String authToken) {
         this.context = context;
         this.teachersList = teachersList;
-        this.placeholderResource = placeholderResource;
-        this.errorResource = errorResource;
+        this.authToken = authToken;
+
+        OkHttpClient picassoClient = new OkHttpClient.Builder()
+                .connectTimeout(60, TimeUnit.SECONDS)
+                .readTimeout(60, TimeUnit.SECONDS)
+                .writeTimeout(60, TimeUnit.SECONDS)
+                .addInterceptor(chain -> {
+                    Request original = chain.request();
+                    Request request = original.newBuilder()
+                            .header("Authorization", "Bearer " + authToken)
+                            .header("Accept", "*/*")
+                            .header("User-Agent", "PostmanRuntime/7.39.0")
+                            .build();
+                    Response response = chain.proceed(request);
+                    Log.d(TAG, "Response headers: " + response.headers());
+                    Log.d(TAG, "Response body: " + response.body().string());
+                    return response;
+                })
+                .build();
+
+        this.picasso = new Picasso.Builder(context)
+                .downloader(new OkHttp3Downloader(picassoClient))
+                .build();
     }
 
     @NonNull
@@ -53,10 +80,9 @@ public class TeachersAdapter extends RecyclerView.Adapter<TeachersAdapter.ViewHo
             String imageUrl = "https://api.college.ks.ua/api/teachers/" + teacherId + "/avatar";
             Log.d(TAG, "Loading Image URL: " + imageUrl);
 
-            Picasso.get()
-                    .load(imageUrl)
-                    .placeholder(placeholderResource)
-                    .error(errorResource)
+            picasso.load(imageUrl)
+                    .placeholder(R.drawable.my_teachers)
+                    .error(R.drawable.menu_my_teacher_v2)
                     .into(holder.imageTeacher, new Callback() {
                         @Override
                         public void onSuccess() {
@@ -71,7 +97,7 @@ public class TeachersAdapter extends RecyclerView.Adapter<TeachersAdapter.ViewHo
 
         } catch (Exception e) {
             Log.e(TAG, "Exception in onBindViewHolder", e);
-            holder.imageTeacher.setImageResource(errorResource);
+            holder.imageTeacher.setImageResource(R.drawable.menu_my_teacher_v2); // Error image
         }
     }
 

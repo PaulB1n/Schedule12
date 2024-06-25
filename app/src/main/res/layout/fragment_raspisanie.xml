@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".RaspisanieFragment"
-    android:background="@color/backgraund">
+    android:background="@color/backgraund"
+    android:theme="@style/Theme.Schedule">
 
     <TextView
         android:id="@+id/textViewTitle"
@@ -17,14 +17,13 @@
         android:padding="15dp"
         android:fontFamily="@font/montserrat_alternates_bold"
         android:background="@color/backgraund"
-        android:textColor="@color/black"
+        android:textColor="@color/primary_text"
         android:shadowColor="#888888"
         android:shadowDx="3"
         android:shadowDy="3"
         android:shadowRadius="4"
         style="@style/TitleTextViewStyle"
         />
-
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewSchedule"

@@ -4,7 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:padding="10dp"
-    android:background="@color/backgraund">
+    android:background="@color/backgraund"
+    android:theme="@style/Theme.Schedule">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
